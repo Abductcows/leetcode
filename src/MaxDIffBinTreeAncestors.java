@@ -1,55 +1,30 @@
 import com.sun.source.tree.Tree;
 
 class Solution {
-    
-    class MNN {
-        
-        final int max;
-        final TreeNode next;
-        
-        public MNN(int max, TreeNode next) {
-            this.max = max;
-            this.next = next;
-        }
-        
-        public MNN(int max) {
-            this(max, null);
-        }
-    }
-    
+
+    // NOT SORTED
     public int maxAncestorDiff(TreeNode root) {
         return Math.max(
-                mad(root, true).max,
-                mad(root, false).max
+                mad(root, true),
+                mad(root, false)
         );
     }
 
 
-    MNN mad(TreeNode current, boolean goLeft) {
+    int mad(TreeNode current, boolean goLeft) {
         
-        TreeNode node, next = null;
-        int nextAttempt;
-        boolean foundNext = false;
+        TreeNode node;
         if (goLeft) {
-            
-            if (current.left == null) new MNN(0);
-            for (node = current.left; node.left != null; node = node.left) {
-                if (node.right != null && !foundNext) {
-                    foundNext = true;
-                    next = node.right;
-                }
-            }
-            if (!foundNext) return new MNN(0);
-            nextAttempt = mad(next, false);
+            if (current.left == null) return 0;
+            for (node = current.left; node.left != null; node = node.left);
         } else {
             if (current.right == null) return 0;
             for (node = current.right; node.right != null; node = node.right);
-            nextAttempt = mad(node, true);
         }
 
         return Math.max(
                 Math.abs(current.val - node.val),
-                nextAttempt
+                mad(node, !goLeft)
         );
     }
 
