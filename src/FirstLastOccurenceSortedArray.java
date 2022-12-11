@@ -1,4 +1,4 @@
-class Solution {
+class SolutionNaberal {
 
     int[] nums;
     int target;
@@ -12,6 +12,7 @@ class Solution {
     private int[] run(int l, int r) {
 
 
+        return null;
     }
 
 
