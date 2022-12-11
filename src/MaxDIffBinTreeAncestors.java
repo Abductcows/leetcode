@@ -1,6 +1,6 @@
 import com.sun.source.tree.Tree;
 
-class Solution {
+class Solution9999999999 {
 
     // NOT SORTED
     public int maxAncestorDiff(TreeNode root) {
