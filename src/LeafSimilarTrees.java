@@ -1,14 +1,12 @@
-import com.sun.source.tree.Tree;
-
 import java.util.ArrayDeque;
+
+import static utils.LeetUtils.TreeNode;
 
 class Solution333 {
     public boolean leafSimilar(TreeNode root1, TreeNode root2) {
 
         ArrayDeque<TreeNode> s1 = new ArrayDeque<>();
         ArrayDeque<TreeNode> s2 = new ArrayDeque<>();
-
-
 
 
         return true;
@@ -29,24 +27,5 @@ class Solution333 {
 
     boolean isLeaf(TreeNode node) {
         return node.left == null && node.right == null;
-    }
-
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
     }
 }

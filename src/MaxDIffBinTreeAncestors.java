@@ -1,4 +1,4 @@
-import com.sun.source.tree.Tree;
+import static utils.LeetUtils.TreeNode;
 
 class Solution9999999999 {
 
@@ -12,14 +12,14 @@ class Solution9999999999 {
 
 
     int mad(TreeNode current, boolean goLeft) {
-        
+
         TreeNode node;
         if (goLeft) {
             if (current.left == null) return 0;
-            for (node = current.left; node.left != null; node = node.left);
+            for (node = current.left; node.left != null; node = node.left) ;
         } else {
             if (current.right == null) return 0;
-            for (node = current.right; node.right != null; node = node.right);
+            for (node = current.right; node.right != null; node = node.right) ;
         }
 
         return Math.max(
@@ -28,23 +28,4 @@ class Solution9999999999 {
         );
     }
 
-
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
 }
