@@ -1,4 +1,5 @@
-class Solution {
+class Solutionjjjj {
+    // todo
     public String longestPalindrome(String s) {
 
         byte[] chars = s.getBytes();
@@ -43,37 +44,37 @@ class Solution {
 
         input = "azwdzwmwcqzgcobeeiphemqbjtxzwkhiqpbrprocbppbxrnsxnwgikiaqutwpftbiinlnpyqstkiqzbggcsdzzjbrkfmhgtnbujzszxsycmvipjtktpebaafycngqasbbhxaeawwmkjcziybxowkaibqnndcjbsoehtamhspnidjylyisiaewmypfyiqtwlmejkpzlieolfdjnxntonnzfgcqlcfpoxcwqctalwrgwhvqvtrpwemxhirpgizjffqgntsmvzldpjfijdncexbwtxnmbnoykxshkqbounzrewkpqjxocvaufnhunsmsazgibxedtopnccriwcfzeomsrrangufkjfzipkmwfbmkarnyyrgdsooosgqlkzvorrrsaveuoxjeajvbdpgxlcrtqomliphnlehgrzgwujogxteyulphhuhwyoyvcxqatfkboahfqhjgujcaapoyqtsdqfwnijlkknuralezqmcryvkankszmzpgqutojoyzsnyfwsyeqqzrlhzbc";
         expected = "sooos";
-        output = new Solution().longestPalindrome(input);
+        output = new Solutionjjjj().longestPalindrome(input);
         System.out.println("Output: " + output + " - Expected: " + expected);
 
         input = "abbcccbbbcaaccbababcbcabca";
         expected = "bbcccbb";
-        output = new Solution().longestPalindrome(input);
+        output = new Solutionjjjj().longestPalindrome(input);
         System.out.println("Output: " + output + " - Expected: " + expected);
 
         input = "eabcb";
         expected = "bcb";
-        output = new Solution().longestPalindrome(input);
+        output = new Solutionjjjj().longestPalindrome(input);
         System.out.println("Output: " + output + " - Expected: " + expected);
 
         input = "aaaa";
         expected = "aaaa";
-        output = new Solution().longestPalindrome(input);
+        output = new Solutionjjjj().longestPalindrome(input);
         System.out.println("Output: " + output + " - Expected: " + expected);
 
         input = "ccc";
         expected = "ccc";
-        output = new Solution().longestPalindrome(input);
+        output = new Solutionjjjj().longestPalindrome(input);
         System.out.println("Output: " + output + " - Expected: " + expected);
 
         input = "cbbd";
         expected = "bb";
-        output = new Solution().longestPalindrome(input);
+        output = new Solutionjjjj().longestPalindrome(input);
         System.out.println("Output: " + output + " - Expected: " + expected);
 
         input = "babad";
         expected = "bab";
-        output = new Solution().longestPalindrome(input);
+        output = new Solutionjjjj().longestPalindrome(input);
         System.out.println("Output: " + output + " - Expected: " + expected);
     }
 }

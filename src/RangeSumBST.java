@@ -1,3 +1,4 @@
+import static utils.LeetUtils.TreeNode;
 
 class Solution333333333 {
 
@@ -25,25 +26,6 @@ class Solution333333333 {
             curSum += cur.val;
         }
         return curSum;
-    }
-
-    static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
     }
 
 }

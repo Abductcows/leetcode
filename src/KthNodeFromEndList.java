@@ -1,5 +1,7 @@
 import java.util.ArrayDeque;
 
+import static utils.LeetUtils.ListNode;
+
 class SolutionRoyale {
     public ListNode removeNthFromEnd(ListNode head, int n) {
 
@@ -29,20 +31,4 @@ class SolutionRoyale {
         return head;
     }
 
-    static class ListNode {
-        int val;
-        ListNode next;
-
-        ListNode() {
-        }
-
-        ListNode(int val) {
-            this.val = val;
-        }
-
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
-    }
 }

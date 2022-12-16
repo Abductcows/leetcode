@@ -1,8 +1,11 @@
 import java.util.ArrayDeque;
 import java.util.HashMap;
 
+import static utils.LeetUtils.TreeNode;
+
 class Solutionnnnnnnnnn {
     HashMap<TreeNode, Integer> sums = new HashMap<>();
+
     public int maxProduct(TreeNode root) {
 
         populateSums(root);
@@ -21,25 +24,6 @@ class Solutionnnnnnnnnn {
 
         if (current == null) return 0;
         return nodeSum(current.left) + nodeSum(current.right);
-    }
-
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
     }
 
 }
