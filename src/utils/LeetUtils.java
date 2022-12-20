@@ -3,7 +3,10 @@ package utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -22,6 +25,72 @@ public class LeetUtils {
         for (ListNode current = head; current.next != null; current = current.next, ++count) ;
         return count;
     }
+
+    void postOrderIter(TreeNode root, Consumer<TreeNode> action) {
+
+        Stack<TreeNode> stack = new Stack<>();
+        Stack<TreeNode> toPop = new Stack<>();
+
+        for (TreeNode current = root; current != null; stack.push(current), current = current.left) ;
+
+        while (!stack.isEmpty()) {
+            TreeNode top = stack.peek();
+            if (top.right == null) {
+                action.accept(stack.pop());
+                continue;
+            }
+            TreeNode nextPop = toPop.peek();
+            if (top == nextPop) {
+                action.accept(stack.pop());
+                toPop.pop();
+            } else {
+                toPop.push(top);
+                for (TreeNode current = top.right; current != null; stack.push(current), current = current.left) ;
+            }
+        }
+    }
+
+    void inorderIter(TreeNode root, Consumer<TreeNode> action) {
+
+        Stack<TreeNode> stack = new Stack<>();
+        for (TreeNode current = root; current != null; stack.push(current), current = current.left) ;
+
+        while (!stack.isEmpty()) {
+            TreeNode top = stack.pop();
+            action.accept(top);
+            for (TreeNode current = top.right; current != null; stack.push(current), current = current.left) ;
+        }
+    }
+
+    void inorderIterEarlyStop(TreeNode root, Predicate<TreeNode> action) {
+
+        Stack<TreeNode> stack = new Stack<>();
+        for (TreeNode current = root; current != null; stack.push(current), current = current.left) ;
+
+        while (!stack.isEmpty()) {
+            TreeNode top = stack.pop();
+            if (action.test(top)) {
+                return;
+            }
+            for (TreeNode current = top.right; current != null; stack.push(current), current = current.left) ;
+        }
+    }
+
+    void preorderIter(TreeNode root, Consumer<TreeNode> action) {
+
+        Stack<TreeNode> stack = new Stack<>();
+        for (TreeNode current = root; current != null;
+             action.accept(current), stack.push(current), current = current.left)
+            ;
+
+        while (!stack.isEmpty()) {
+            TreeNode top = stack.pop();
+            for (TreeNode current = top.right; current != null;
+                 action.accept(current), stack.push(current), current = current.left)
+                ;
+        }
+    }
+
 
     @SuppressWarnings("unchecked")
     static <E> E[] decodeArray(String array,
@@ -70,28 +139,6 @@ public class LeetUtils {
                 .mapToInt(o -> (Integer) o)
                 .toArray();
     }
-
-    public static void main(String[] args) {
-        String test;
-
-        test = "";
-        System.out.println(Arrays.toString(decodeIntArray(test)));
-        test = "[]";
-        System.out.println(Arrays.toString(decodeIntArray(test)));
-        test = "[15]";
-        System.out.println(Arrays.toString(decodeIntArray(test)));
-        test = "[1, 2]";
-        System.out.println(Arrays.toString(decodeIntArray(test)));
-
-        test = "[[]]";
-        System.out.println(Arrays.deepToString(decode2DIntArray(test)));
-        test = "[[1,5],[8,12],[15,24],[25,26]]";
-        System.out.println(Arrays.deepToString(decode2DIntArray(test)));
-        test = "[[0,2],[5,10],[13,23],[24,25]]";
-        System.out.println(Arrays.deepToString(decode2DIntArray(test)));
-        System.out.println();
-    }
-
 
     public static class ListNode {
 
