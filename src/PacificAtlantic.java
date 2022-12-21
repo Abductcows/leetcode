@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
-class Solution {
+class Solution91oop {
 
     static class MyCoord {
 
@@ -49,7 +48,7 @@ class Solution {
 
         for (int i = 0; i < m; ++i) {
             for (int j = 0; j < n; ++j) {
-                runDFS(i, j);
+                //           runDFS(i, j);
             }
         }
 
@@ -63,46 +62,6 @@ class Solution {
         }
         return result;
     }
-
-    void runDFS(int row, int col) {
-
-        if (canFlow[row][col] == BOTH) return;
-        Stack<MyCoord> stack = new Stack<>();
-
-        while (canFlow[row][col] != BOTH && !stack.isEmpty()) {
-            MyCoord currCoords = stack.pop();
-            final int i = currCoords.i, j = currCoords.j;
-            final int thisH = heights[i][j];
-            if (i < m - 1) {
-                if (heights[i][j] >= heights[i + 1][j]) {
-                    stack.push(MyCoord.of(i + 1, j));
-                } else if (heights[i][j] <= heights[i + 1][j]) {
-                    canFlow[i + 1][j] |= canFlow[i][j];
-                }
-            }
-            if (i > 0) {
-                if (heights[i][j] >= heights[i - 1][j]) {
-                    stack.addLast(MyCoord.of(i - 1, j));
-                } else if (heights[i][j] <= heights[i - 1][j]) {
-                    canFlow[i - 1][j] |= canFlow[i][j];
-                }
-            }
-            if (j < n - 1) {
-                if (heights[i][j] >= heights[i][j + 1]) {
-                    stack.addLast(MyCoord.of(i, j + 1));
-                } else if (heights[i][j] <= heights[i][j + 1]) {
-                    canFlow[i][j + 1] |= canFlow[i][j];
-                }
-            }
-            if (j > 0) {
-                if (heights[i][j] >= heights[i][j - 1]) {
-                    stack.push(MyCoord.of(i, j - 1));
-                } else if (heights[i][j] <= heights)
-            }
-
-        }
-    }
-
 
     private void populateInitialFlows(int m, int n) {
         for (int i = 0; i < m; ++i) {

@@ -26,6 +26,30 @@ public class LeetUtils {
         return count;
     }
 
+    void postOrderIterEarlyStop(TreeNode root, Predicate<TreeNode> action) {
+
+        Stack<TreeNode> stack = new Stack<>();
+        Stack<TreeNode> toPop = new Stack<>();
+
+        for (TreeNode current = root; current != null; stack.push(current), current = current.left) ;
+
+        while (!stack.isEmpty()) {
+            TreeNode top = stack.peek();
+            if (top.right == null) {
+                if (action.test(stack.pop())) return;
+                continue;
+            }
+            TreeNode nextPop = toPop.peek();
+            if (top == nextPop) {
+                if (action.test(stack.pop())) return;
+                toPop.pop();
+            } else {
+                toPop.push(top);
+                for (TreeNode current = top.right; current != null; stack.push(current), current = current.left) ;
+            }
+        }
+    }
+
     void postOrderIter(TreeNode root, Consumer<TreeNode> action) {
 
         Stack<TreeNode> stack = new Stack<>();
