@@ -21,9 +21,18 @@ public class LeetUtils {
 
     public static int countElements(ListNode head) {
         if (head == null) return 0;
-        int count = 1;
-        for (ListNode current = head; current.next != null; current = current.next, ++count) ;
-        return count;
+        if (head.next == null) return 1;
+        if (head.next.next == null) return 2;
+        int count = 0;
+        ListNode fast = head;
+        while (fast.next != null && fast.next.next != null) {
+            ++count;
+            fast = fast.next;
+        }
+        if (fast.next == null) {
+            return 2 * count - 1;
+        }
+        return 2 * count;
     }
 
     void postOrderIterEarlyStop(TreeNode root, Predicate<TreeNode> action) {
@@ -115,6 +124,22 @@ public class LeetUtils {
         }
     }
 
+    void preorderIterEarlyStop(TreeNode root, Predicate<TreeNode> action) {
+
+        Stack<TreeNode> stack = new Stack<>();
+        for (TreeNode current = root; current != null; current = current.left) {
+            if (action.test(current)) return;
+            stack.push(current);
+        }
+
+        while (!stack.isEmpty()) {
+            TreeNode top = stack.pop();
+            for (TreeNode current = top.right; current != null; current = current.left) {
+                if (action.test(current)) return;
+                stack.push(current);
+            }
+        }
+    }
 
     @SuppressWarnings("unchecked")
     static <E> E[] decodeArray(String array,
