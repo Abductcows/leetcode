@@ -1,9 +1,6 @@
 package utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -11,6 +8,56 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class LeetUtils {
+
+    public static void main(String[] args) {
+        String sentence;
+
+        sentence = "Hello world haha";
+        for (SentenceWordIterator it = new SentenceWordIterator(sentence); it.hasNext(); ) {
+            String word = it.next();
+            System.out.println(word);
+        }
+        sentence = "oneword";
+        for (SentenceWordIterator it = new SentenceWordIterator(sentence); it.hasNext(); ) {
+            String word = it.next();
+            System.out.println(word);
+        }
+        sentence = "two  spaces";
+        for (SentenceWordIterator it = new SentenceWordIterator(sentence); it.hasNext(); ) {
+            String word = it.next();
+            System.out.println(word);
+        }
+        sentence = "";
+        for (SentenceWordIterator it = new SentenceWordIterator(sentence); it.hasNext(); ) {
+            String word = it.next();
+            System.out.println(word);
+        }
+    }
+
+    static class SentenceWordIterator implements Iterator<String> {
+
+        final byte[] sentence;
+        final int limit;
+        int cur = 0;
+
+        public SentenceWordIterator(String sentence) {
+            this.sentence = sentence.trim().getBytes();
+            this.limit = this.sentence.length;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return cur < limit;
+        }
+
+        @Override
+        public String next() {
+            int start = cur;
+            while (cur < limit && sentence[cur] != ' ') ++cur;
+            while (cur < limit - 1 && sentence[++cur] == ' ');
+            return new String(sentence, start, cur - start);
+        }
+    }
 
     // 123 elements
     final int[] fastCharFreqArray = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -33,6 +80,10 @@ public class LeetUtils {
             return 2 * count - 1;
         }
         return 2 * count;
+    }
+
+    Iterator<String> wordIterator(String sentence) {
+        return new SentenceWordIterator(sentence);
     }
 
     void postOrderIterEarlyStop(TreeNode root, Predicate<TreeNode> action) {

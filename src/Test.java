@@ -1,31 +1,43 @@
-class SolutionFakuoe {
-    public int superEggDrop(int k, int n) {
+import java.util.Arrays;
 
-        int backUpK = k;
-        int count = 0;
-        int length = n;
+class Solution {
 
-        while (length > 4 && k > 1) {
-            ++count;
-            --k;
-            length = (length - 1) / 2;
+    int[] tasks;
+
+    public int minimumRounds(int[] tasks) {
+        Arrays.sort(tasks);
+        final int n = tasks.length;
+        this.tasks = tasks;
+        int i = 0, res = 0;
+        while (i < tasks.length) {
+            int j = findNext(i, n - 1);
+            if (j == i + 1) return -1;
+            res += (j - i + 2) / 3;
+            i = j;
+        }
+        return res;
+    }
+
+
+    int findNext(int l, int r) {
+
+        int task = tasks[l];
+        int lin = l + 1, limit = Math.min(l + 30, r);
+        for (; lin < limit; ++lin) {
+            if (tasks[lin] != task) return lin;
+        }
+        l = limit;
+        while (l + 1 < r) {
+
+            int mid = l + (r - l) / 2;
+
+            if (tasks[mid] == task) {
+                l = mid;
+            } else {
+                r = mid - 1;
+            }
         }
 
-        if (k > 1) {
-            if (length <= 2) return count + length;
-            return count + length - 1;
-        }
-
-        return (n >> (backUpK - 1)) + count;
-//
-//        if (n >> (k - 2) == 4) return 3 + k - 2;
-//
-//        if (log <= k) return n == 2 ? 2 : Math.max(log, 1);
-//
-//        System.out.println("Log = " + log);
-//
-//        n = (n + 1) >> (k - 1);
-//        System.out.println("n after division = " + n);
-//        return n - 1 + k - 1;
+        return 1 + tasks[r] == task ? r : l;
     }
 }
