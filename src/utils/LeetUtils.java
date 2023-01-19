@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -54,7 +55,7 @@ public class LeetUtils {
         public String next() {
             int start = cur;
             while (cur < limit && sentence[cur] != ' ') ++cur;
-            while (cur < limit - 1 && sentence[++cur] == ' ');
+            while (cur < limit - 1 && sentence[++cur] == ' ') ;
             return new String(sentence, start, cur - start);
         }
     }
@@ -130,6 +131,29 @@ public class LeetUtils {
             } else {
                 toPop.push(top);
                 for (TreeNode current = top.right; current != null; stack.push(current), current = current.left) ;
+            }
+        }
+    }
+
+
+    void inorderIterDepthed(TreeNode root, BiConsumer<TreeNode, Integer> action) {
+
+        ArrayDeque<TreeNode> stack = new ArrayDeque<>();
+        ArrayDeque<Integer> depths = new ArrayDeque<>();
+
+        int depth = 0;
+        for (TreeNode current = root; current != null; current = current.left) {
+            stack.push(current);
+            depths.push(depth++);
+        }
+
+        while (!stack.isEmpty()) {
+            TreeNode top = stack.pop();
+            int topDepth = depths.pop();
+            action.accept(top, topDepth);
+            for (TreeNode current = top.right; current != null; current = current.left) {
+                stack.push(current);
+                depths.push(topDepth + 1);
             }
         }
     }
