@@ -2,10 +2,10 @@ package utils;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Named;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -17,9 +17,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class MinHeapTest {
 
     MinHeap heap;
-    static Random rand = new Random(10129);
+    static final int RAND_SEED = 10101;
+    static Random rand = new Random(RAND_SEED);
 
-    static List<Integer> randomIntListSizes = List.of(
+    static List<Integer> randomIntListSizes = new ArrayList<>(List.of(
             0, 1, 2, 3, 4, 5, 6, 7, 8, 9,
             15, 16, 17,
             20, 28, 29, 31, 32, 33,
@@ -27,7 +28,13 @@ class MinHeapTest {
             127, 128, 129,
             500, 511, 512, 513,
             1000, 1023, 1024, 1025
-    );
+    ));
+
+    static {
+        for (int i = 0; i < 100; ++i) {
+            randomIntListSizes.add(100 + rand.nextInt(4096));
+        }
+    }
 
     static List<Named<int[]>> getSomeInts() {
         return randomIntListSizes
@@ -40,6 +47,7 @@ class MinHeapTest {
     @BeforeEach
     void setUp() {
         heap = new MinHeap();
+        rand = new Random(RAND_SEED);
     }
 
     @ParameterizedTest
@@ -65,6 +73,7 @@ class MinHeapTest {
         Arrays.sort(expected);
 
         heap = new MinHeap(testData);
+        n = heap.size();
 
         for (int i = 0; i < n; ++i) {
             assertEquals(expected[i], heap.pop());

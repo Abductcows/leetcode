@@ -1,13 +1,13 @@
 package utils;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
-class MinHeap {
+public class MinHeap {
 
-    static final int DEFAULT_SIZE = 64;
-    int[] data;
-    int elements;
-
+    public static final int DEFAULT_SIZE = 64;
+    public int[] data;
+    public int elements;
 
     public MinHeap() {
         this(new int[DEFAULT_SIZE], 0);
@@ -23,13 +23,13 @@ class MinHeap {
         buildHeap();
     }
 
-    void add(int e) {
+    public void add(int e) {
         ensureCapacity();
         data[elements] = e;
         heapifyUp(elements++);
     }
 
-    int pop() {
+    public int pop() {
         if (elements == 0) throw new NoSuchElementException();
         int res = data[0];
         data[0] = data[--elements];
@@ -37,7 +37,7 @@ class MinHeap {
         return res;
     }
 
-    int size() {
+    public int size() {
         return elements;
     }
 
@@ -56,7 +56,7 @@ class MinHeap {
 
     void heapifyDown(int index) {
 
-        int bothChildrenLoops = -1 - (31 ^ Integer.numberOfLeadingZeros(index + 1)) + (31 ^ Integer.numberOfLeadingZeros(elements + 1));
+        int bothChildrenLoops = -1 + Integer.numberOfLeadingZeros(index + 1) - Integer.numberOfLeadingZeros(elements + 1);
 
         for (int i = 0; i < bothChildrenLoops; ++i) {
             int leftChild = 2 * index + 1;
@@ -85,20 +85,26 @@ class MinHeap {
         }
     }
 
-    void buildHeap() {
+    public void buildHeap() {
         if (elements <= 1) return;
-        int start = -2 + (1 << (31 ^ Integer.numberOfLeadingZeros(elements)));
 
+        int start = -2 + (1 << (31 ^ Integer.numberOfLeadingZeros(elements)));
         for (int i = start; i >= 0; --i) heapifyDown(i);
     }
-
 
     void ensureCapacity() {
         if (elements < data.length) return;
         if (elements == Integer.MAX_VALUE) throw new IllegalStateException("Heap completely full. Size = " + elements);
         int newLength = (int) Math.min(2L * elements, Integer.MAX_VALUE);
-        int[] newData = new int[newLength];
-        System.arraycopy(data, 0, newData, 0, elements);
-        data = newData;
+        data = Arrays.copyOf(data, newLength);
+    }
+
+    /**
+     * This kills the heap
+     */
+    public int[] heapSort() {
+        int[] result = new int[elements];
+        for (int i = 0, n = elements; i < n; ++i) result[i] = pop();
+        return result;
     }
 }
