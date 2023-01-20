@@ -1,14 +1,31 @@
 class Solution {
-    public int minFlipsMonoIncr(String s) {
+    public int[][] diagonalSort(int[][] mat) {
 
-        int zero = 0, one = 0;
+        int[] count = new int[101];
+        int m = mat.length, n = mat[0].length;
 
-        for (byte c : s.getBytes(java.nio.charset.StandardCharsets.US_ASCII)) {
-            one += c - 48;
-            zero += 49 - c;
-            zero += ((one - zero) & ((one - zero) >> 31));
+        for (int startRow = 0; startRow < m; ++startRow) {
+            for (int offset = 0, limit = Math.min(m - startRow, n); offset < limit; ++offset) {
+                ++count[mat[startRow + offset][offset]];
+            }
+            for (int offset = 0, countP = 1, limit = Math.min(m - startRow, n); offset < limit; ++offset) {
+                while (count[countP] == 0) ++countP;
+                mat[startRow + offset][offset] = countP;
+                --count[countP];
+            }
         }
 
-        return zero;
+        for (int startCol = 0; startCol < n; ++startCol) {
+            for (int offset = 0, limit = Math.min(n - startCol, m); offset < limit; ++offset) {
+                ++count[mat[offset][startCol + offset]];
+            }
+            for (int offset = 0, countP = 1, limit = Math.min(n - startCol, m); offset < limit; ++offset) {
+                while (count[countP] == 0) ++countP;
+                mat[offset][startCol + offset] = countP;
+                --count[countP];
+            }
+        }
+
+        return mat;
     }
 }

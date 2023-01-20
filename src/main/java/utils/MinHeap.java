@@ -10,7 +10,11 @@ public class MinHeap {
     public int elements;
 
     public MinHeap() {
-        this(new int[DEFAULT_SIZE], 0);
+        this(DEFAULT_SIZE);
+    }
+
+    public MinHeap(int initialSize) {
+        this(new int[initialSize], 0);
     }
 
     public MinHeap(int[] data) {
@@ -108,3 +112,4 @@ public class MinHeap {
         return result;
     }
 }
+
