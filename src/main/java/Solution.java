@@ -1,33 +1,27 @@
 class Solution {
     public String repeatLimitedString(String s, int k) {
 
-
         byte[] res;
         int resP = 0;
         int[] freqs = new int[26];
-        for (byte aChar : (res = s.getBytes(java.nio.charset.StandardCharsets.US_ASCII))) ++freqs[aChar - 'a'];
+        for (byte aChar : (res = s.getBytes())) ++freqs[aChar - 97];
 
+        for (int i = 25, j = 24, next = 24; i >= 0; i = j, next = j - 1) {
 
-        for (int i = 25; i >= 0; --i) {
-
-            // groups of k chars with
             while (freqs[i] > k) {
-                // place k largest chars
-                for (int _j = 0; _j < k; ++_j) res[resP++] = (byte) ('a' + i);
+                for (int _j = 0; _j < k; ++_j) res[resP++] = (byte) (97 + i);
                 freqs[i] -= k;
 
-                int j = i - 1;
+                for (j = next; j >= 0 && freqs[j] == 0; --j) ;
+                if (j < 0) return new String(res, 0, resP);
 
-                for (; freqs[j] == 0; --j) ;
-                int inBetweenCharIndex = 25 - Integer.numberOfTrailingZeros(occupieFlags & toTheLeftMask);
-                if (inBetweenCharIndex < 0) return new String(res, 0, resP);
-                res[resP++] = (byte) ('a' + inBetweenCharIndex);
+                res[resP++] = (byte) (97 + j);
+                --freqs[j];
             }
-            // last 0 < c <= k chars
-            for (int _j = freqs[i]; _j > 0; --_j) res[resP++] = (byte) ('a' + i);
+
+            for (int _j = freqs[i]; _j > 0; --_j) res[resP++] = (byte) (97 + i);
         }
 
-
-        return new String(res, 0, resP);
+        return new String(res);
     }
 }
