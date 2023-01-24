@@ -12,23 +12,24 @@ public class HeapsortVsDualPivotQuicksort {
 
     @State(Scope.Benchmark)
     public static class Data {
-        @Param({"1000", "10000", "25000", "1000000", "300000000", /*"1000000000"*/})
+        @Param({"64", "10000", "50000", "1000000", "20000000"/*"300000000", "1000000000"*/})
         public long elements;
 
         public int[] data;
 
         @Setup
         public void setUp() {
-            data = new Random(10092).ints().limit(elements).toArray();
+            data = new Random(elements).ints().limit(elements).toArray();
         }
     }
 
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    @Fork(value = 1, warmups = 0)
-    @Warmup(iterations = 0)
-    @Measurement(iterations = 1)
+    @Fork(value = 4, warmups = 1)
+    @Warmup(iterations = 2)
+    @Measurement(iterations = 15)
+    @Timeout(time = 1, timeUnit = TimeUnit.HOURS)
     public int[] testQuicksort(Data d) {
         int[] cp = Arrays.copyOf(d.data, d.data.length);
         Arrays.sort(cp);
@@ -39,9 +40,10 @@ public class HeapsortVsDualPivotQuicksort {
     @Benchmark
     @BenchmarkMode(Mode.SingleShotTime)
     @OutputTimeUnit(TimeUnit.MILLISECONDS)
-    @Fork(value = 1, warmups = 0)
-    @Warmup(iterations = 0)
-    @Measurement(iterations = 1)
+    @Fork(value = 4, warmups = 0)
+    @Warmup(iterations = 2)
+    @Measurement(iterations = 15)
+    @Timeout(time = 1, timeUnit = TimeUnit.HOURS)
     public int[] testHeapsort(Data d) {
         int[] cp = Arrays.copyOf(d.data, d.data.length);
         MinHeap heap = new MinHeap(cp);

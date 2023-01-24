@@ -1,31 +1,33 @@
 class Solution {
-    public int[][] diagonalSort(int[][] mat) {
+    public String repeatLimitedString(String s, int k) {
 
-        int[] count = new int[101];
-        int m = mat.length, n = mat[0].length;
 
-        for (int startRow = 0; startRow < m; ++startRow) {
-            for (int offset = 0, limit = Math.min(m - startRow, n); offset < limit; ++offset) {
-                ++count[mat[startRow + offset][offset]];
+        byte[] res;
+        int resP = 0;
+        int[] freqs = new int[26];
+        for (byte aChar : (res = s.getBytes(java.nio.charset.StandardCharsets.US_ASCII))) ++freqs[aChar - 'a'];
+
+
+        for (int i = 25; i >= 0; --i) {
+
+            // groups of k chars with
+            while (freqs[i] > k) {
+                // place k largest chars
+                for (int _j = 0; _j < k; ++_j) res[resP++] = (byte) ('a' + i);
+                freqs[i] -= k;
+
+                int j = i - 1;
+
+                for (; freqs[j] == 0; --j) ;
+                int inBetweenCharIndex = 25 - Integer.numberOfTrailingZeros(occupieFlags & toTheLeftMask);
+                if (inBetweenCharIndex < 0) return new String(res, 0, resP);
+                res[resP++] = (byte) ('a' + inBetweenCharIndex);
             }
-            for (int offset = 0, countP = 1, limit = Math.min(m - startRow, n); offset < limit; ++offset) {
-                while (count[countP] == 0) ++countP;
-                mat[startRow + offset][offset] = countP;
-                --count[countP];
-            }
+            // last 0 < c <= k chars
+            for (int _j = freqs[i]; _j > 0; --_j) res[resP++] = (byte) ('a' + i);
         }
 
-        for (int startCol = 0; startCol < n; ++startCol) {
-            for (int offset = 0, limit = Math.min(n - startCol, m); offset < limit; ++offset) {
-                ++count[mat[offset][startCol + offset]];
-            }
-            for (int offset = 0, countP = 1, limit = Math.min(n - startCol, m); offset < limit; ++offset) {
-                while (count[countP] == 0) ++countP;
-                mat[offset][startCol + offset] = countP;
-                --count[countP];
-            }
-        }
 
-        return mat;
+        return new String(res, 0, resP);
     }
 }
