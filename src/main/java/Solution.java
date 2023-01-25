@@ -1,27 +1,50 @@
 class Solution {
-    public String repeatLimitedString(String s, int k) {
 
-        byte[] res;
-        int resP = 0;
-        int[] freqs = new int[26];
-        for (byte aChar : (res = s.getBytes())) ++freqs[aChar - 97];
+    int m, n;
+    IntQueue q = new IntQueue();
 
-        for (int i = 25, j = 24, next = 24; i >= 0; i = j, next = j - 1) {
+    public int[][] rotateGrid(int[][] grid, int k) {
+        m = grid.length;
+        n = grid[0].length;
 
-            while (freqs[i] > k) {
-                for (int _j = 0; _j < k; ++_j) res[resP++] = (byte) (97 + i);
-                freqs[i] -= k;
-
-                for (j = next; j >= 0 && freqs[j] == 0; --j) ;
-                if (j < 0) return new String(res, 0, resP);
-
-                res[resP++] = (byte) (97 + j);
-                --freqs[j];
-            }
-
-            for (int _j = freqs[i]; _j > 0; --_j) res[resP++] = (byte) (97 + i);
+        for (int i = 0, limit = Math.min(m, n) / 2, div = (m + n - 2) << 1; i < limit; ++i, div -= 8, q.reset()) {
+            rotate(grid, i, i, k % div);
         }
 
-        return new String(res);
+        return grid;
+    }
+
+    public void rotate(int[][] matrix, int row, int col, int k) {
+        for (int i = col; i < n - col; ++i) q.add(matrix[row][i]);
+        for (int i = row + 1; i < m - row - 1; ++i) q.add(matrix[i][n - col - 1]);
+        for (int i = n - col - 1; i >= col; --i) q.add(matrix[m - row - 1][i]);
+        for (int i = m - row - 1 - 1; i > row; --i) q.add(matrix[i][col]);
+        for (int i = 0; i < k; ++i) q.add(q.poll());
+        for (int i = col; i < n - col; ++i) matrix[row][i] = q.poll();
+        for (int i = row + 1; i < m - row - 1; ++i) matrix[i][n - col - 1] = q.poll();
+        for (int i = n - col - 1; i >= col; --i) matrix[m - row - 1][i] = q.poll();
+        for (int i = m - row - 1 - 1; i > row; --i) matrix[i][col] = q.poll();
+    }
+
+
+    static class IntQueue {
+        int head = 0, tail = 255;
+        int[] data = new int[256];
+
+        void reset() {
+            head = 0;
+            tail = 255;
+        }
+
+        void add(int e) {
+            tail = tail + 1 & 255;
+            data[tail] = e;
+        }
+
+        int poll() {
+            int e = data[head];
+            head = head + 1 & 255;
+            return e;
+        }
     }
 }
