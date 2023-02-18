@@ -22,8 +22,4 @@ class DangerList extends AbstractList<String> implements RandomAccess {
         return size;
     }
 
-    @Override
-    public void sort(Comparator<? super String> c) {
-        super.sort(c);
-    }
 }
